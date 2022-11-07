@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+    django: #run django
+        build: .
+        container_name: django
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes: #non-persistant data; mounted from dockerfile
+            - .:/usr/src/app
+        ports:
+            - "8000:8000"
+        depends_on:
+            - pgdb
+    pgdb:
+        image: postgres #postgres image pulled from docker
+        container_name: pgdb
+        environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+       # volumes:
+        #    - pgdata:/var/lib/postgresql/data/
+            #attaching volume to postgres database container
+#volumes:
+ #   pgdata:
